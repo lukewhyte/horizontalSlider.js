@@ -16,7 +16,7 @@
 
   HorizontalSlider.prototype = {
     // This is the object used to sets the parameters for the move() object
-    // It is expanded during setActions() to reflect the current state at each click
+    // It is expanded during setActions() to reflect the current state at the time of each click
     slideAction: {
       goHome: 0, // What to return to at end of slideshow
       resetCount: 1 // Reset the counter when ifMoreSlides() returns false
@@ -36,13 +36,13 @@
 
     // Here we expand the 'slideAction' object that tells move() 
     // how fast, far and in what direction to push the slider
-    setActions: function(current, direction) {
+    setActions: function(currentPos, direction) {
       var slideAction = this.slideAction;
 
-      // This statement utilizes ifMoreSlides() to set .animate() properties reflective 
-      // of whether we're trying to go past the end of the slideshow or not
+      // Conditional statement utilizing ifMoreSlides() to set the .animate() properties 
+      // reflective of whether we're at the end of the slideshow or not
       if (this.ifMoreSlides(direction)) {
-        slideAction.move = (direction === 'forward') ? current - this.sWidth : current + this.sWidth; // Moving forward or back?
+        slideAction.move = (direction === 'forward') ? currentPos - this.sWidth : currentPos + this.sWidth; // Moving forward or back?
         slideAction.rate = 1000;
         slideAction.leftPos = slideAction.move;
       } else {
@@ -72,12 +72,12 @@
 
     // Big 'ol conditional to check if a button was clicked and, if so, which one
     click: function(target) {
-      var current = parseInt(this.$innerWrap.css('left'));
+      var currentPos = parseInt(this.$innerWrap.css('left'));
 
       if ($(target).is('.back')) {
-        this.setActions(current, 'back');
+        this.setActions(currentPos, 'back');
       } else if ($(target).is('.forward')) {
-        this.setActions(current, 'forward');
+        this.setActions(currentPos, 'forward');
       } else {
         return(false);
       }
