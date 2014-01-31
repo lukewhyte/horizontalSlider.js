@@ -2,11 +2,13 @@
 
   var pluginName = 'horizontalSlider';
 
-  function HorizontalSlider(slides) {
+  function HorizontalSlider(slides, speed) {
     // These first three properties point to the slides, their immediate wrapper and the outer wrapper
     this.$slides = $(slides);
     this.$innerWrap = this.$slides.parent();
     this.$outerWrap = this.$innerWrap.parent();
+
+    this.rate = (speed) ? speed : 1000; // Set the rate of the slide action or default to 1000
 
     this.total = this.$slides.toArray().length; // Useful for keeping a log of position
     this.sWidth = this.$slides.width(); // Used to define length of each animation
@@ -43,7 +45,7 @@
       // reflective of whether we're at the end of the slideshow or not
       if (this.ifMoreSlides(direction)) {
         slideAction.move = (direction === 'forward') ? currentPos - this.sWidth : currentPos + this.sWidth; // Moving forward or back?
-        slideAction.rate = 1000;
+        slideAction.rate = this.rate;
         slideAction.leftPos = slideAction.move;
       } else {
         slideAction.rate = 200;
@@ -111,8 +113,8 @@
     }
   };
 
-  $.fn[pluginName] = function() {
-    return new HorizontalSlider(this);
+  $.fn[pluginName] = function(speed) {
+    return new HorizontalSlider(this, speed);
   };
 
 }(jQuery));
