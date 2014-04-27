@@ -18,17 +18,34 @@
   }
 
   HorizontalSlider.prototype = {
-    activeSlides: {
-      pre: {},
-      active: {},
-      post: {}
+    moveForward: function() {
+      var current = this.options.counter,
+          next = (current === this.total) ? 1 : current + 1,
+          $current = $('div.slide[data-index="'+current+'"]'),
+          $next = $('div.slide[data-index="'+next+'"]');
+
+      $next.css('margin-left', this.sWidth);
+      $current.animate({
+        marginLeft: this.sWidth * -1,
+      }, {
+        duration: this.options.rate,
+        queue: false
+      });
+      $next.animate({
+        marginLeft: 0,
+      }, {
+        duration: this.options.rate,
+        queue: false
+      });
     },
+
+    moveBack: function() {},
 
     click: function(target) {
       if ($(target).is('.back')) {
-        this.checkPosition('back');
+        this.moveBack();
       } else if ($(target).is('.forward')) {
-        this.checkPosition('forward');
+        this.moveForward();
       } else {
         return(false);
       }
