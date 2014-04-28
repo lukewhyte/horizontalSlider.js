@@ -18,37 +18,59 @@
   }
 
   HorizontalSlider.prototype = {
-    moveForward: function() {
-      var current = this.options.counter,
-          next = (current === this.total) ? 1 : current + 1,
-          $current = $('div.slide[data-index="'+current+'"]'),
-          $next = $('div.slide[data-index="'+next+'"]');
+    move: function(current, next, direction) {
+      var $current = $('div.slide[data-index="'+current+'"]'),
+          $next = $('div.slide[data-index="'+next+'"]'),
+          that = this;
 
-      $next.css('margin-left', this.sWidth);
+      if (direction === 'forward') {
+        var nextLeft = this.sWidth,
+            nextCurrent = this.sWidth * -1;
+        this.options.counter = (current === this.total) ? 1 : current + 1;
+      } else {
+        var nextLeft = this.sWidth * -1;
+            nextCurrent = this.sWidth;
+        this.options.counter = (current === this.total) ? 1 : current + 1;
+      }
+
+      $next.css({
+        marginLeft: nextLeft,
+        display: 'block'
+      });
       $current.animate({
-        marginLeft: this.sWidth * -1,
+        marginLeft: nextCurrent
       }, {
         duration: this.options.rate,
         queue: false
       });
       $next.animate({
-        marginLeft: 0,
+        marginLeft: 0
       }, {
         duration: this.options.rate,
-        queue: false
+        queue: false,
+        complete: function() {
+          that.reset();
+        }
       });
     },
 
-    moveBack: function() {},
-
     click: function(target) {
+      var current = this.options.counter;
+          next = 0;
       if ($(target).is('.back')) {
-        this.moveBack();
+        next = (current === 1) ? this.total : current - 1;
+        this.move(current, next, 'back');
       } else if ($(target).is('.forward')) {
-        this.moveForward();
+        next = (current === this.total) ? 1 : current + 1;
+        this.move(current, next, 'forward');
       } else {
         return(false);
       }
+    },
+
+    reset: function() {
+      this.$slides.css('margin-left', 0);
+      $('div.slide').not('[data-index="' + this.options.counter + '"]').hide();
     },
 
     buildButtons: function() {
@@ -78,6 +100,7 @@
     },
 
     init: function() {
+      var that = this;
       this.setCss();
       this.buildButtons();
       this.$wrap.click(function(e) {
