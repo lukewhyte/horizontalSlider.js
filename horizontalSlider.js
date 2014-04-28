@@ -1,9 +1,11 @@
 (function($) {
 
   var pluginName = 'horizontalSlider',
+      defaultButtons = '<div class="back" href="#"></div><div class="forward" href="#"></div>',
       defaults = {
         rate: 1000, // Set the rate of the slide action
-        counter: 1 // Set the initial slide to be shown
+        counter: 1, // Set the initial slide to be shown
+        buttons: $('<div class="slider-btns"></div>').append(defaultButtons)
       };
 
   function HorizontalSlider(element, options) {
@@ -18,10 +20,6 @@
   }
 
   HorizontalSlider.prototype = {
-    /*************************************
-     * Methods called by the click event *
-     *************************************/
-
     // This object is updated in this.click() and updates the slide margins in this.move()
     actions: {
       nextLeft: 0,
@@ -87,18 +85,8 @@
       }
     },
 
-    /************************************************
-     * Methods called by init() to set up slider *
-     ************************************************/
-
-    // Add the buttons to the bottom of this.$wrap. They should be controled via CSS.
-    buildButtons: function() {
-      var buttons = '<div class="slider-btns"><div class="back" href="#" alt="slider left arrow button"></div>';
-      buttons += '<div class="forward" href="#" alt="slider right arrow button"></div></div>';
-      $(buttons).appendTo(this.$wrap);
-    },
-
-    setCss: function() {
+    // This method is called once by init and then never again
+    setUpCss: function() {
       this.$wrap.css({
         position: 'relative',
         left: 0,
@@ -116,12 +104,14 @@
       });
 
       $('div.slide').not('[data-index="' + this.options.counter + '"]').hide();
+
+      // Add the buttons to the bottom of this.$wrap. They can be controled via CSS.
+      $(this.options.buttons).appendTo(this.$wrap);
     },
 
     init: function() {
       var that = this;
-      this.setCss();
-      this.buildButtons();
+      this.setUpCss();
       this.$wrap.click(function(e) {
         that.click(e.target);
       });
