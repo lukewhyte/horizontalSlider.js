@@ -21,41 +21,32 @@
   }
 
   HorizontalSlider.prototype = {
-    // This object is updated in this.click() and updates the slide margins in this.move()
-    actions: {
-      nextLeft: 0,
-      nextCurrent: 0,
-    },
-
-    // Aften this.move() pushes the margins around, this function resets the slides' position
+    // After this.move() pushes the margins around, this function resets the slides' position
     reset: function() {
-      this.$slides.css('margin-left', 0);
-      $('div.slide').not('[data-index="' + this.options.counter + '"]').hide();
+      this.$slides.css('margin-left', 0)
+                  .not('[data-index="' + this.options.counter + '"]')
+                  .hide();
     },
 
-    // This is the meat of the operation
-    move: function(current) {
-      var $current = $('div.slide[data-index="'+current+'"]'),
-          $next = $('div.slide[data-index="'+this.options.counter+'"]'),
+    // This is where the animation takes place
+    move: function(current, y, z) {
+      var $current = $('[data-index="'+current+'"]'),
+          $next = $('[data-index="'+this.options.counter+'"]'),
           that = this;
 
       this.options.buttons.unbind(); // Make sure the event isn't fired during animation
 
       $next.css({ // Prep the next slide
-        marginLeft: this.actions.nextLeft,
+        marginLeft: this.sWidth * z,
         display: 'block'
       });
-      $current.animate({ // Animate the current and next slide
-        marginLeft: this.actions.nextCurrent
-      }, {
-        duration: this.options.rate,
-        queue: false
-      });
+
+      // Animate the current and next slide
+      $current.animate({ marginLeft: this.sWidth * y }, this.options.rate);
       $next.animate({
         marginLeft: 0
       }, {
         duration: this.options.rate,
-        queue: false,
         complete: function() { // Reset the CSS and rebind the click event
           that.reset();
           that.options.buttons.click(function(e) {
@@ -67,20 +58,17 @@
 
     // Big ol' conditional hinging on which, if any, button was clicked.
     // Important to notice that 'current' is set to this.options.counter.
-    // this.options.counter is then iterated and used by var '$next' in this.move()
+    // this.options.counter is then iterated and used by '$next' in this.move()
     click: function(target) {
-      var current = this.options.counter;
+      var current = this.options.counter,
+          a = 1, b = -1;
 
       if ($(target).is('.back')) {
-        this.actions.nextLeft = this.sWidth * -1;
-        this.actions.nextCurrent = this.sWidth;
         this.options.counter = (current === 1) ? this.total : current - 1;
-        this.move(current);
+        this.move(current, a, b);
       } else if ($(target).is('.forward')) {
-        this.actions.nextLeft = this.sWidth;
-        this.actions.nextCurrent = this.sWidth * -1;
         this.options.counter = (current === this.total) ? 1 : current + 1;
-        this.move(current);
+        this.move(current, b, a);
       } else {
         return(false);
       }
