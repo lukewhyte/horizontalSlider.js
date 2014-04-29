@@ -58,13 +58,12 @@
     },
 
     // Big ol' conditional hinging on which, if any, button was clicked.
-    // Important to notice that 'current' is set to this.options.counter.
-    // this.options.counter is then iterated and used by '$next' in this.move()
     click: function(target) {
-      var current = this.options.counter,
-          pos = 1, neg = -1; // these will become int1 and int2 in this.move()
+      var current = this.options.counter, // Grab counter's current value
+          pos = 1, neg = -1; // these will be passed as int1 and int2 to this.move()
 
       if ($(target).is('.back')) {
+        // Iterate counter so we can use it to target the incoming slide in this.move()
         this.options.counter = (current === 1) ? this.total : current - 1;
         this.move(current, pos, neg);
       } else if ($(target).is('.forward')) {
