@@ -103,7 +103,7 @@
             });
       });
 
-      $('div.slide').not('[data-index="' + this.options.counter + '"]').hide();
+      this.$slides.not('[data-index="' + this.options.counter + '"]').hide();
 
       // Add the buttons to the bottom of this.$wrap. They can be controled via CSS.
       $(this.options.buttons).appendTo(this.$wrap);
