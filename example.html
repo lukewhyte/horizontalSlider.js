@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Horizontal Slider example</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      .slideWrap {
+        width: 650px;
+        margin: 50px auto 0;
+        display: none;
+      }
+      .slide {
+        width: 650px;
+        height: 300px;
+        background: red;
+      }
+      .slide:nth-child(2) { background: blue; }
+      .slide:nth-child(3) { background: yellow; }
+      .slide:nth-child(4) { background: orange; }
+      .slide:nth-child(5) { background: green; }
+      
+      /* Style the buttons */
+      /* In this example, they're built as CSS triangles: http://bit.ly/1iyzPGe */
+      .slider-btns {
+        position: absolute;
+        top: 244px;
+        left: 40px;
+      }
+      .back, .forward {
+        width: 0;
+        height: 0;
+        border-top: 18px solid transparent;
+        border-bottom: 18px solid transparent;
+        float: left;
+      }
+      .back { border-right: 18px solid white; }
+      .forward {
+        border-left: 18px solid white;
+        margin-left: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slideWrap">
+      <div class="slide"></div>
+      <div class="slide"></div>
+      <div class="slide"></div>
+      <div class="slide"></div>
+      <div class="slide"></div>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="horizontalSlider.min.js"></script>
+    <script>
+      $('.slideWrap').horizontalSlider();
+    </script>
+  </body>
+</html>

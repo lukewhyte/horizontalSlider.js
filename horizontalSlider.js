@@ -5,7 +5,8 @@
       defaults = {
         rate: 1000, // Set the rate of the slide action
         counter: 1, // Set the initial slide to be shown
-        buttons: $('<div class="slider-btns"></div>').append(defaultButtons)
+        buttons: $('<div class="slider-btns"></div>').append(defaultButtons),
+        btnsInside: true
       };
 
   function HorizontalSlider(element, options) {
@@ -38,7 +39,7 @@
           $next = $('div.slide[data-index="'+this.options.counter+'"]'),
           that = this;
 
-      this.$wrap.unbind(); // Make sure the event isn't fired during animation
+      this.options.buttons.unbind(); // Make sure the event isn't fired during animation
 
       $next.css({ // Prep the next slide
         marginLeft: this.actions.nextLeft,
@@ -57,7 +58,7 @@
         queue: false,
         complete: function() { // Reset the CSS and rebind the click event
           that.reset();
-          that.$wrap.click(function(e) {
+          that.options.buttons.click(function(e) {
             that.click(e.target);
           });
         }
@@ -105,14 +106,17 @@
 
       this.$slides.not('[data-index="' + this.options.counter + '"]').hide();
 
-      // Add the buttons to the bottom of this.$wrap. They can be controled via CSS.
-      $(this.options.buttons).appendTo(this.$wrap);
+      // Add the buttons to the bottom of (or just below) this.$wrap. They can be further controled via CSS.
+      if (this.options.btnsInside) $(this.options.buttons).appendTo(this.$wrap);
+      else $(this.options.buttons).insertAfter(this.$wrap);
+
+      this.$wrap.show(); // If the the wrapper is hidden by default, show it.
     },
 
     init: function() {
       var that = this;
       this.setUpCss();
-      this.$wrap.click(function(e) {
+      this.options.buttons.click(function(e) {
         that.click(e.target);
       });
     }
