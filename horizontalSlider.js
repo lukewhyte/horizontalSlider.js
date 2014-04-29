@@ -29,7 +29,8 @@
     },
 
     // This is where the animation takes place
-    move: function(current, y, z) {
+    // int1 & int2 flip values (switching btw 1 or -1) depending on direction of travel
+    move: function(current, int1, int2) {
       var $current = $('[data-index="'+current+'"]'),
           $next = $('[data-index="'+this.options.counter+'"]'),
           that = this;
@@ -37,12 +38,12 @@
       this.options.buttons.unbind(); // Make sure the event isn't fired during animation
 
       $next.css({ // Prep the next slide
-        marginLeft: this.sWidth * z,
+        marginLeft: this.sWidth * int2,
         display: 'block'
       });
 
       // Animate the current and next slide
-      $current.animate({ marginLeft: this.sWidth * y }, this.options.rate);
+      $current.animate({ marginLeft: this.sWidth * int1 }, this.options.rate);
       $next.animate({
         marginLeft: 0
       }, {
@@ -61,14 +62,14 @@
     // this.options.counter is then iterated and used by '$next' in this.move()
     click: function(target) {
       var current = this.options.counter,
-          a = 1, b = -1;
+          pos = 1, neg = -1; // these will become int1 and int2 in this.move()
 
       if ($(target).is('.back')) {
         this.options.counter = (current === 1) ? this.total : current - 1;
-        this.move(current, a, b);
+        this.move(current, pos, neg);
       } else if ($(target).is('.forward')) {
         this.options.counter = (current === this.total) ? 1 : current + 1;
-        this.move(current, b, a);
+        this.move(current, neg, pos);
       } else {
         return(false);
       }
