@@ -1,4 +1,4 @@
-Lightweight Horizontal Slideshow plugin
+Lightweight Horizontal Slider
 ===================
 
 This is a lightweight (1.87kb) and customizable horizontal slider plugin written in jQuery.
