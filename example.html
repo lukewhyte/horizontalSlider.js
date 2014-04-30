@@ -7,6 +7,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+<<<<<<< HEAD
       .slideWrap {
         width: 650px;
         margin: 50px auto 0;
@@ -14,6 +15,16 @@
       }
       .slide {
         width: 650px;
+=======
+      /* Slide and slide wrappers' styles */
+      .slideWrap {
+        width: 650px;
+        margin: 0 auto 50px;
+        display: none;
+      }
+      .slide {
+        width: 800px;
+>>>>>>> sandbox
         height: 300px;
         background: red;
       }
@@ -22,20 +33,38 @@
       .slide:nth-child(4) { background: orange; }
       .slide:nth-child(5) { background: green; }
       
+<<<<<<< HEAD
       /* Style the buttons */
       /* In this example, they're built as CSS triangles: http://bit.ly/1iyzPGe */
+=======
+      .imgWrap { 
+        margin: 0 auto;
+        visibility: hidden;
+      }
+      p { 
+        text-align: center;
+        margin-top: 50px;
+      }
+      /* '.slideWrap' button styles – In this example, they're built using CSS triangles: http://bit.ly/1iyzPGe */
+>>>>>>> sandbox
       .slider-btns {
         position: absolute;
         top: 244px;
         left: 40px;
       }
+<<<<<<< HEAD
       .back, .forward {
+=======
+      .slider-btns .back, 
+      .slider-btns .forward {
+>>>>>>> sandbox
         width: 0;
         height: 0;
         border-top: 18px solid transparent;
         border-bottom: 18px solid transparent;
         float: left;
       }
+<<<<<<< HEAD
       .back { border-right: 18px solid white; }
       .forward {
         border-left: 18px solid white;
@@ -44,6 +73,27 @@
     </style>
   </head>
   <body>
+=======
+      .slider-btns .back { border-right: 18px solid white; }
+      .slider-btns .forward {
+        border-left: 18px solid white;
+        margin-left: 15px;
+      }
+
+      /* '.imgWrap' button styles */
+      .buttons { 
+        width: 650px;
+        margin: 5px auto 100px;
+        font-family: serif;
+        font-size: 14px;
+      }
+      .buttons .back, 
+      .buttons .forward { cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <p><strong>Slide #1:</strong> This is the most basic slide implementation. In this case, the slides are just empty DIVs</p>
+>>>>>>> sandbox
     <div class="slideWrap">
       <div class="slide"></div>
       <div class="slide"></div>
@@ -51,10 +101,39 @@
       <div class="slide"></div>
       <div class="slide"></div>
     </div>
+<<<<<<< HEAD
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="horizontalSlider.min.js"></script>
     <script>
       $('.slideWrap').horizontalSlider();
+=======
+    <p><strong>Slide #2:</strong> This slide uses just images and takes advantage of every plugin option (detailed in source)</p>
+    <div class="imgWrap">
+      <img src="images/hitching1.jpg" />
+      <img src="images/hitching2.jpg" />
+      <img src="images/hitching3.jpg" />
+      <img src="images/hitching4.jpg" />
+      <img src="images/hitching5.jpg" />
+      <img src="images/hitching6.jpg" />
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="horizontalSlider.js"></script>
+    <script>
+      // btnHtml is used to override the default button HTML, firstImg randomly choses the first displayed img
+      var btnHtml = '<span class="back">Back</span> | <span class="forward">Foward</span>', 
+          firstImg = Math.floor(Math.random() * $('.imgWrap img').length + 1),
+          sliderOptions = { // Object containing all the options that can be passed to horizontalSlider
+            rate: 500, // sliding speed (default: 1000)
+            btnsInside: false, // Should the buttons go inside the slider wrapper (default: true)
+            buttons: btnHtml, // A string that overrides default button HTML
+            btnWrap: 'buttons', // String that overrides button wrapper class (default: 'slider-btns')
+            counter: firstImg // Number that declares which slide should be shown first
+          };
+      
+      $('.slideWrap').horizontalSlider();
+      
+      $('.imgWrap').horizontalSlider(sliderOptions);
+>>>>>>> sandbox
     </script>
   </body>
 </html>
