@@ -1,16 +1,11 @@
 (function($) {
 
   var pluginName = 'horizontalSlider',
-      defaultButtons = '<div class="back" href="#"></div><div class="forward" href="#"></div>',
       defaults = {
         rate: 1000, // Set the rate of the slide action
         counter: 1, // Set the initial slide to be shown
-<<<<<<< HEAD
-        buttons: $('<div class="slider-btns"></div>').append(defaultButtons),
-=======
         buttons: '<div class="back" href="#"></div><div class="forward" href="#"></div>',
         btnWrap: 'slider-btns',
->>>>>>> sandbox
         btnsInside: true
       };
 
@@ -37,19 +32,11 @@
     // This is where the animation takes place
     // int1 & int2 flip values (switching btw 1 or -1) depending on direction of travel
     move: function(current, int1, int2) {
-<<<<<<< HEAD
-      var $current = $('[data-index="'+current+'"]'),
-          $next = $('[data-index="'+this.options.counter+'"]'),
-          that = this;
-
-      this.options.buttons.unbind(); // Make sure the event isn't fired during animation
-=======
       var $current = this.$wrap.find('[data-index="'+current+'"]'),
           $next = this.$wrap.find('[data-index="'+this.options.counter+'"]'),
           that = this;
 
       this.buttons.unbind(); // Make sure the event isn't fired during animation
->>>>>>> sandbox
 
       $next.css({ // Prep the next slide
         marginLeft: this.sWidth * int2,
@@ -109,12 +96,6 @@
       this.$slides.not('[data-index="' + this.options.counter + '"]').hide();
 
       // Add the buttons to the bottom of (or just below) this.$wrap. They can be further controled via CSS.
-<<<<<<< HEAD
-      if (this.options.btnsInside) $(this.options.buttons).appendTo(this.$wrap);
-      else $(this.options.buttons).insertAfter(this.$wrap);
-
-      this.$wrap.show(); // If the the wrapper is hidden by default, show it.
-=======
       if (this.options.btnsInside) $(this.buttons).appendTo(this.$wrap);
       else $(this.buttons).insertAfter(this.$wrap);
 
@@ -122,17 +103,12 @@
         display: 'block',
         visibility: 'visible'
       }); 
->>>>>>> sandbox
     },
 
     init: function() {
       var that = this;
       this.setUpCss();
-<<<<<<< HEAD
-      this.options.buttons.click(function(e) {
-=======
       this.buttons.click(function(e) {
->>>>>>> sandbox
         that.click(e.target);
       });
     }
