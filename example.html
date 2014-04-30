@@ -7,9 +7,10 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+      /* Slide and slide wrappers' styles */
       .slideWrap {
         width: 650px;
-        margin: 50px auto 100px;
+        margin: 0 auto 50px;
         display: none;
       }
       .slide {
@@ -26,8 +27,11 @@
         margin: 0 auto;
         visibility: hidden;
       }
-      
-      /* Style the '.slideWrap' buttons – In this example, they're built using CSS triangles: http://bit.ly/1iyzPGe */
+      p { 
+        text-align: center;
+        margin-top: 50px;
+      }
+      /* '.slideWrap' button styles – In this example, they're built using CSS triangles: http://bit.ly/1iyzPGe */
       .slider-btns {
         position: absolute;
         top: 244px;
@@ -46,7 +50,8 @@
         border-left: 18px solid white;
         margin-left: 15px;
       }
-      /* Style the '.imgWrap' buttons */
+
+      /* '.imgWrap' button styles */
       .buttons { 
         width: 650px;
         margin: 5px auto 100px;
@@ -58,6 +63,7 @@
     </style>
   </head>
   <body>
+    <p><strong>Slide #1:</strong> This is the most basic slide implementation. In this case, the slides are just empty DIVs</p>
     <div class="slideWrap">
       <div class="slide"></div>
       <div class="slide"></div>
@@ -65,6 +71,7 @@
       <div class="slide"></div>
       <div class="slide"></div>
     </div>
+    <p><strong>Slide #2:</strong> This slide uses just images and takes advantage of every plugin option (detailed in source)</p>
     <div class="imgWrap">
       <img src="images/hitching1.jpg" />
       <img src="images/hitching2.jpg" />
@@ -76,18 +83,20 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="horizontalSlider.js"></script>
     <script>
-      var btnHtml = '<span class="back">Back</span> | <span class="forward">Foward</span>', // A string used to override btns in the 2nd slider
-          firstImg = Math.floor(Math.random() * $('.imgWrap img').length + 1);
+      // btnHtml is used to override the default button HTML, firstImg randomly choses the first displayed img
+      var btnHtml = '<span class="back">Back</span> | <span class="forward">Foward</span>', 
+          firstImg = Math.floor(Math.random() * $('.imgWrap img').length + 1),
+          sliderOptions = { // Object containing all the options that can be passed to horizontalSlider
+            rate: 500, // sliding speed (default: 1000)
+            btnsInside: false, // Should the buttons go inside the slider wrapper (default: true)
+            buttons: btnHtml, // A string that overrides default button HTML
+            btnWrap: 'buttons', // String that overrides button wrapper class (default: 'slider-btns')
+            counter: firstImg // Number that declares which slide should be shown first
+          };
       
       $('.slideWrap').horizontalSlider();
       
-      $('.imgWrap').horizontalSlider({
-        rate: 500,
-        btnsInside: false,
-        buttons: btnHtml,
-        btnWrap: 'buttons',
-        counter: firstImg
-      });
+      $('.imgWrap').horizontalSlider(sliderOptions);
     </script>
   </body>
 </html>

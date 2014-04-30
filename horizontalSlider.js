@@ -15,7 +15,7 @@
 
     this.options = $.extend({}, defaults, options);
 
-    this.options.buttons = $('<div class="'+this.options.btnWrap+'"></div>').append(this.options.buttons);
+    this.buttons = $('<div class="'+this.options.btnWrap+'"></div>').append(this.buttons);
     this.total = this.$slides.toArray().length; // Useful for keeping a log of position
     this.sWidth = this.$slides.width(); // Used to define the distance covered with each animation
     this.init();
@@ -36,7 +36,7 @@
           $next = this.$wrap.find('[data-index="'+this.options.counter+'"]'),
           that = this;
 
-      this.options.buttons.unbind(); // Make sure the event isn't fired during animation
+      this.buttons.unbind(); // Make sure the event isn't fired during animation
 
       $next.css({ // Prep the next slide
         marginLeft: this.sWidth * int2,
@@ -96,8 +96,8 @@
       this.$slides.not('[data-index="' + this.options.counter + '"]').hide();
 
       // Add the buttons to the bottom of (or just below) this.$wrap. They can be further controled via CSS.
-      if (this.options.btnsInside) $(this.options.buttons).appendTo(this.$wrap);
-      else $(this.options.buttons).insertAfter(this.$wrap);
+      if (this.options.btnsInside) $(this.buttons).appendTo(this.$wrap);
+      else $(this.buttons).insertAfter(this.$wrap);
 
       this.$wrap.css({ // If the the wrapper is hidden by default, show it.
         display: 'block',
@@ -108,7 +108,7 @@
     init: function() {
       var that = this;
       this.setUpCss();
-      this.options.buttons.click(function(e) {
+      this.buttons.click(function(e) {
         that.click(e.target);
       });
     }
