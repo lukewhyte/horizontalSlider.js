@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Horizontal Slider example</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      .slideWrap {
+        width: 650px;
+        margin: 50px auto 100px;
+        display: none;
+      }
+      .slide {
+        width: 800px;
+        height: 300px;
+        background: red;
+      }
+      .slide:nth-child(2) { background: blue; }
+      .slide:nth-child(3) { background: yellow; }
+      .slide:nth-child(4) { background: orange; }
+      .slide:nth-child(5) { background: green; }
+      
+      .imgWrap { 
+        margin: 0 auto;
+        visibility: hidden;
+      }
+      
+      /* Style the '.slideWrap' buttons – In this example, they're built using CSS triangles: http://bit.ly/1iyzPGe */
+      .slider-btns {
+        position: absolute;
+        top: 244px;
+        left: 40px;
+      }
+      .slider-btns .back, 
+      .slider-btns .forward {
+        width: 0;
+        height: 0;
+        border-top: 18px solid transparent;
+        border-bottom: 18px solid transparent;
+        float: left;
+      }
+      .slider-btns .back { border-right: 18px solid white; }
+      .slider-btns .forward {
+        border-left: 18px solid white;
+        margin-left: 15px;
+      }
+      /* Style the '.imgWrap' buttons */
+      .buttons { 
+        width: 650px;
+        margin: 5px auto 100px;
+        font-family: serif;
+        font-size: 14px;
+      }
+      .buttons .back, 
+      .buttons .forward { cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <div class="slideWrap">
+      <div class="slide"></div>
+      <div class="slide"></div>
+      <div class="slide"></div>
+      <div class="slide"></div>
+      <div class="slide"></div>
+    </div>
+    <div class="imgWrap">
+      <img src="images/hitching1.jpg" />
+      <img src="images/hitching2.jpg" />
+      <img src="images/hitching3.jpg" />
+      <img src="images/hitching4.jpg" />
+      <img src="images/hitching5.jpg" />
+      <img src="images/hitching6.jpg" />
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="horizontalSlider.js"></script>
+    <script>
+      var btnHtml = '<span class="back">Back</span> | <span class="forward">Foward</span>', // A string used to override btns in the 2nd slider
+          firstImg = Math.floor(Math.random() * $('.imgWrap img').length + 1);
+      
+      $('.slideWrap').horizontalSlider();
+      
+      $('.imgWrap').horizontalSlider({
+        rate: 500,
+        btnsInside: false,
+        buttons: btnHtml,
+        btnWrap: 'buttons',
+        counter: firstImg
+      });
+    </script>
+  </body>
+</html>

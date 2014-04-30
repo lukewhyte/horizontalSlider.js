@@ -3,7 +3,10 @@
   var pluginName = 'horizontalSlider',
       defaults = {
         rate: 1000, // Set the rate of the slide action
-        counter: 1 // Set the initial slide to be shown
+        counter: 1, // Set the initial slide to be shown
+        buttons: '<div class="back" href="#"></div><div class="forward" href="#"></div>',
+        btnWrap: 'slider-btns',
+        btnsInside: true
       };
 
   function HorizontalSlider(element, options) {
@@ -12,54 +15,43 @@
 
     this.options = $.extend({}, defaults, options);
 
+    this.options.buttons = $('<div class="'+this.options.btnWrap+'"></div>').append(this.options.buttons);
     this.total = this.$slides.toArray().length; // Useful for keeping a log of position
     this.sWidth = this.$slides.width(); // Used to define the distance covered with each animation
     this.init();
   }
 
   HorizontalSlider.prototype = {
-    /*************************************
-     * Methods called by the click event *
-     *************************************/
-
-    // This object is updated in this.click() and updates the slide margins in this.move()
-    actions: {
-      nextLeft: 0,
-      nextCurrent: 0,
-    },
-
-    // Aften this.move() pushes the margins around, this function resets the slides' position
+    // After this.move() pushes the margins around, this function resets the slides' position
     reset: function() {
-      this.$slides.css('margin-left', 0);
-      $('div.slide').not('[data-index="' + this.options.counter + '"]').hide();
+      this.$slides.css('margin-left', 0)
+                  .not('[data-index="' + this.options.counter + '"]')
+                  .hide();
     },
 
-    // This is the meat of the operation
-    move: function(current) {
-      var $current = $('div.slide[data-index="'+current+'"]'),
-          $next = $('div.slide[data-index="'+this.options.counter+'"]'),
+    // This is where the animation takes place
+    // int1 & int2 flip values (switching btw 1 or -1) depending on direction of travel
+    move: function(current, int1, int2) {
+      var $current = this.$wrap.find('[data-index="'+current+'"]'),
+          $next = this.$wrap.find('[data-index="'+this.options.counter+'"]'),
           that = this;
 
-      this.$wrap.unbind(); // Make sure the event isn't fired during animation
+      this.options.buttons.unbind(); // Make sure the event isn't fired during animation
 
       $next.css({ // Prep the next slide
-        marginLeft: this.actions.nextLeft,
+        marginLeft: this.sWidth * int2,
         display: 'block'
       });
-      $current.animate({ // Animate the current and next slide
-        marginLeft: this.actions.nextCurrent
-      }, {
-        duration: this.options.rate,
-        queue: false
-      });
+
+      // Animate the current and next slide
+      $current.animate({ marginLeft: this.sWidth * int1 }, this.options.rate);
       $next.animate({
         marginLeft: 0
       }, {
         duration: this.options.rate,
-        queue: false,
         complete: function() { // Reset the CSS and rebind the click event
           that.reset();
-          that.$wrap.click(function(e) {
+          that.options.buttons.click(function(e) {
             that.click(e.target);
           });
         }
@@ -67,38 +59,24 @@
     },
 
     // Big ol' conditional hinging on which, if any, button was clicked.
-    // Important to notice that 'current' is set to this.options.counter.
-    // this.options.counter is then iterated and used by var '$next' in this.move()
     click: function(target) {
-      var current = this.options.counter;
+      var current = this.options.counter, // Grab counter's current value
+          pos = 1, neg = -1; // these will be passed as int1 and int2 to this.move()
 
       if ($(target).is('.back')) {
-        this.actions.nextLeft = this.sWidth * -1;
-        this.actions.nextCurrent = this.sWidth;
+        // Iterate counter so we can use it to target the incoming slide in this.move()
         this.options.counter = (current === 1) ? this.total : current - 1;
-        this.move(current);
+        this.move(current, pos, neg);
       } else if ($(target).is('.forward')) {
-        this.actions.nextLeft = this.sWidth;
-        this.actions.nextCurrent = this.sWidth * -1;
         this.options.counter = (current === this.total) ? 1 : current + 1;
-        this.move(current);
+        this.move(current, neg, pos);
       } else {
         return(false);
       }
     },
 
-    /************************************************
-     * Methods called by init() to set up slider *
-     ************************************************/
-
-    // Add the buttons to the bottom of this.$wrap. They should be controled via CSS.
-    buildButtons: function() {
-      var buttons = '<div class="slider-btns"><div class="back" href="#" alt="slider left arrow button"></div>';
-      buttons += '<div class="forward" href="#" alt="slider right arrow button"></div></div>';
-      $(buttons).appendTo(this.$wrap);
-    },
-
-    setCss: function() {
+    // This method is called once by init and then never again
+    setUpCss: function() {
       this.$wrap.css({
         position: 'relative',
         left: 0,
@@ -115,14 +93,22 @@
             });
       });
 
-      $('div.slide').not('[data-index="' + this.options.counter + '"]').hide();
+      this.$slides.not('[data-index="' + this.options.counter + '"]').hide();
+
+      // Add the buttons to the bottom of (or just below) this.$wrap. They can be further controled via CSS.
+      if (this.options.btnsInside) $(this.options.buttons).appendTo(this.$wrap);
+      else $(this.options.buttons).insertAfter(this.$wrap);
+
+      this.$wrap.css({ // If the the wrapper is hidden by default, show it.
+        display: 'block',
+        visibility: 'visible'
+      }); 
     },
 
     init: function() {
       var that = this;
-      this.setCss();
-      this.buildButtons();
-      this.$wrap.click(function(e) {
+      this.setUpCss();
+      this.options.buttons.click(function(e) {
         that.click(e.target);
       });
     }
