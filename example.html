@@ -25,6 +25,10 @@
       .imgWrap { 
         margin: 0 auto;
       }
+      .imgWrap img {
+        width: 500px;
+        height: 352px;
+      }
       p { 
         text-align: center;
         margin-top: 50px;
@@ -51,7 +55,7 @@
 
       /* '.imgWrap' button styles */
       .buttons { 
-        width: 650px;
+        width: 500px;
         margin: 5px auto 100px;
         font-family: serif;
         font-size: 14px;
@@ -80,20 +84,22 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="horizontalSlider.min.js"></script>
     <script>
-      // btnHtml is used to override the default button HTML, firstImg randomly choses the first displayed img
-      var btnHtml = '<span class="back">Back</span> | <span class="forward">Foward</span>', 
-          firstImg = Math.floor(Math.random() * $('.imgWrap img').length + 1),
-          sliderOptions = { // Object containing all the options that can be passed to horizontalSlider
-            rate: 500, // sliding speed (default: 1000)
-            btnsInside: false, // Should the buttons go inside the slider wrapper (default: true)
-            buttons: btnHtml, // A string that overrides default button HTML
-            btnWrap: 'buttons', // A classname for the DIV the will be wrapped around the buttons
-            counter: firstImg // Number that declares which slide should be shown first
-          };
-      
-      $('.slideWrap').horizontalSlider();
+      $(function() {
+        // btnHtml is used to override the default button HTML, firstImg randomly choses the first displayed img
+        var btnHtml = '<span class="back">Back</span> | <span class="forward">Foward</span>', 
+            firstImg = Math.floor(Math.random() * $('.imgWrap img').length + 1),
+            sliderOptions = { // Object containing all the options that can be passed to horizontalSlider
+              rate: 500, // sliding speed (default: 1000)
+              btnsInside: false, // Should the buttons go inside the slider wrapper (default: true)
+              buttons: btnHtml, // A string that overrides default button HTML
+              btnWrap: 'buttons', // A classname for the DIV the will be wrapped around the buttons
+              counter: firstImg // Number that declares which slide should be shown first
+            };
+        
+        $('.slideWrap').horizontalSlider();
 
-      $('.imgWrap').horizontalSlider(sliderOptions);
+        $('.imgWrap').horizontalSlider(sliderOptions);
+      });
     </script>
   </body>
 </html>
