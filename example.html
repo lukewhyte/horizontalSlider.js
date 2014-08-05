@@ -82,7 +82,7 @@
     <script>
       // btnHtml is used to override the default button HTML, firstImg randomly choses the first displayed img
       var btnHtml = '<span class="back">Back</span> | <span class="forward">Foward</span>', 
-          firstImg = Math.floor(Math.random() * $('.imgWrap img').length),
+          firstImg = Math.floor(Math.random() * $('.imgWrap img').length + 1),
           sliderOptions = { // Object containing all the options that can be passed to horizontalSlider
             rate: 500, // sliding speed (default: 1000)
             btnsInside: false, // Should the buttons go inside the slider wrapper (default: true)
