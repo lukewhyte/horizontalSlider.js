@@ -18,7 +18,7 @@ And then instantiate the plugin like this:
 $('.imgWrap').horizontalSlider();
 ````
 
-The plugin can be passed an object literal of options. This allows you to customize things like the slider buttons and where they appear, the rate at which the slides move and which slide gets shown first. That object could look something like this:
+The plugin can be passed an object literal of options. This allows you to customize things like the slider buttons and where they appear, the rate at which the slides move and which slide gets shown first. An installation utilizing that object could look something like this:
 ````
 var btnHtml = '<span class="back">Back</span> | <span class="forward">Foward</span>', 
     sliderOptions = {
