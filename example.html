@@ -11,7 +11,6 @@
       .slideWrap {
         width: 650px;
         margin: 0 auto 50px;
-        display: none;
       }
       .slide {
         width: 800px;
@@ -25,7 +24,6 @@
       
       .imgWrap { 
         margin: 0 auto;
-        visibility: hidden;
       }
       p { 
         text-align: center;
@@ -73,12 +71,10 @@
     </div>
     <p><strong>Slide #2:</strong> This slide uses just images and takes advantage of every plugin option (detailed in source)</p>
     <div class="imgWrap">
-      <img src="images/hitching1.jpg" />
-      <img src="images/hitching2.jpg" />
-      <img src="images/hitching3.jpg" />
-      <img src="images/hitching4.jpg" />
-      <img src="images/hitching5.jpg" />
-      <img src="images/hitching6.jpg" />
+      <img src="img/puppy-1.jpg" />
+      <img src="img/puppy-2.jpg" />
+      <img src="img/puppy-3.jpg" />
+      <img src="img/puppy-4.jpg" />
     </div>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="horizontalSlider.js"></script>
@@ -90,12 +86,11 @@
             rate: 500, // sliding speed (default: 1000)
             btnsInside: false, // Should the buttons go inside the slider wrapper (default: true)
             buttons: btnHtml, // A string that overrides default button HTML
-            btnWrap: 'buttons', // String that overrides button wrapper class (default: 'slider-btns')
             counter: firstImg // Number that declares which slide should be shown first
           };
       
       $('.slideWrap').horizontalSlider();
-      
+
       $('.imgWrap').horizontalSlider(sliderOptions);
     </script>
   </body>

@@ -15,13 +15,22 @@
 
     this.options = $.extend({}, defaults, options);
 
-    this.buttons = $('<div class="'+this.options.btnWrap+'"></div>').append(this.buttons);
-    this.total = this.$slides.toArray().length; // Useful for keeping a log of position
+    this.setUniqueBtns(); // Make sure the btnWrap selector is unique
+
+    this.buttons = '<div class="'+this.options.btnWrap+'">'+this.options.buttons+'</div>';
+    this.total = Array.prototype.slice.apply(this.$slides).length; // Useful for keeping a log of position
     this.sWidth = this.$slides.width(); // Used to define the distance covered with each animation
     this.init();
   }
 
   HorizontalSlider.prototype = {
+    setUniqueBtns: function() {
+      var total = $('.'+this.options.btnWrap).length;
+      if (total) {
+        this.options.btnWrap = this.options.btnWrap + '-' + total;
+      }
+    },
+
     // After this.move() pushes the margins around, this function resets the slides' position
     reset: function() {
       this.$slides.css('margin-left', 0)
@@ -34,9 +43,10 @@
     move: function(current, int1, int2) {
       var $current = this.$wrap.find('[data-index="'+current+'"]'),
           $next = this.$wrap.find('[data-index="'+this.options.counter+'"]'),
+          $btnSelector = $('.'+this.options.btnWrap),
           that = this;
 
-      this.buttons.unbind(); // Make sure the event isn't fired during animation
+      $btnSelector.unbind(); // Make sure the event isn't fired during animation
 
       $next.css({ // Prep the next slide
         marginLeft: this.sWidth * int2,
@@ -51,7 +61,7 @@
         duration: this.options.rate,
         complete: function() { // Reset the CSS and rebind the click event
           that.reset();
-          that.options.buttons.click(function(e) {
+          $btnSelector.click(function(e) {
             that.click(e.target);
           });
         }
@@ -108,7 +118,7 @@
     init: function() {
       var that = this;
       this.setUpCss();
-      this.buttons.click(function(e) {
+      $('.'+this.options.btnWrap).click(function(e) {
         that.click(e.target);
       });
     }
