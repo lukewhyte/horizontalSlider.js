@@ -26,6 +26,7 @@ var btnHtml = '<span class="back">Back</span> | <span class="forward">Foward</sp
       rate: 500, // sliding speed (default: 1000)
       btnsInside: false, // Should the buttons go inside the slider wrapper (default: true)
       buttons: btnHtml, // A string that overrides default button HTML (default: '<div class="back" href="#"></div><div class="forward" href="#"></div>')
+      btnWrap: 'buttons', // A classname for the DIV the will be wrapped around the buttons (default: 'slider-btns')
       counter: firstImg // Number that declares which slide should be shown first
     };
 ````
