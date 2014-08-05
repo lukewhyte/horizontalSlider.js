@@ -30,3 +30,5 @@ var btnHtml = '<span class="back">Back</span> | <span class="forward">Foward</sp
       counter: firstImg // Number that declares which slide should be shown first
     };
 ````
+
+A working example can be seen here: http://lukeallanwhyte.com/tightrope/slider/example.html
