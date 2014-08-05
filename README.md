@@ -3,7 +3,7 @@ Lightweight Horizontal Slider
 
 This is a lightweight (2kb) and customizable horizontal slider plugin written in jQuery.
 
-In order to use, simply wrap all of your slides in a parent DIV. Eg.:
+In order to use, wrap all of your slides in a parent DIV. Eg.:
 ````
 <div class="imgWrap">
   <img src="img/puppy-1.jpg" />
