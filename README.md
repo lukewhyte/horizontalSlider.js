@@ -26,7 +26,8 @@ var btnHtml = '<span class="back">Back</span> | <span class="forward">Foward</sp
       btnsInside: false, // Should the buttons go inside the slider wrapper (default: true)
       buttons: btnHtml, // A string that overrides default button HTML
       btnWrap: 'buttons', // A classname for the DIV the will be wrapped around the buttons (default: 'slider-btns')
-      counter: 2 // Number that declares which slide should be shown first
+      counter: 2, // Number that declares which slide should be shown first
+      auto: 1500 // Number marking how frequently slider should auto-slide (default: 0)
     };
     
 $('.imgWrap').horizontalSlider(sliderOptions);

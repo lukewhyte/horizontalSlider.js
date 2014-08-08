@@ -6,7 +6,8 @@
         counter: 1, // Set the initial slide to be shown
         buttons: '<div class="back" href="#"></div><div class="forward" href="#"></div>',
         btnWrap: 'slider-btns',
-        btnsInside: true
+        btnsInside: true,
+        auto: 0
       };
 
   function HorizontalSlider(element, options) {
@@ -24,6 +25,8 @@
   }
 
   HorizontalSlider.prototype = {
+    inMotion: false,
+
     setUniqueBtns: function() {
       var total = $('.'+this.options.btnWrap).length;
       if (total) {
@@ -46,6 +49,7 @@
           $btnSelector = $('.'+this.options.btnWrap),
           that = this;
 
+      this.inMotion = true;
       $btnSelector.unbind(); // Make sure the event isn't fired during animation
 
       $next.css({ // Prep the next slide
@@ -64,6 +68,7 @@
           $btnSelector.click(function(e) {
             that.click(e.target);
           });
+          that.inMotion = false;
         }
       });
     },
@@ -83,6 +88,15 @@
       } else {
         return(false);
       }
+    },
+
+    autoSlide: function () {
+      var that = this;
+      window.setInterval(function() {
+        if (that.inMotion === false) {
+          that.click('.forward');
+        }
+      }, that.options.auto);
     },
 
     // This method is called once by init and then never again
@@ -121,6 +135,7 @@
       $('.'+this.options.btnWrap).click(function(e) {
         that.click(e.target);
       });
+      if (this.options.auto) this.autoSlide();
     }
   };
 
