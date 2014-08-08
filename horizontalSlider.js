@@ -21,12 +21,11 @@
     this.buttons = '<div class="'+this.options.btnWrap+'">'+this.options.buttons+'</div>';
     this.total = Array.prototype.slice.apply(this.$slides).length; // Useful for keeping a log of position
     this.sWidth = this.$slides.width(); // Used to define the distance covered with each animation
+    this.inMotion = false;
     this.init();
   }
 
   HorizontalSlider.prototype = {
-    inMotion: false,
-
     setUniqueBtns: function() {
       var total = $('.'+this.options.btnWrap).length;
       if (total) {
@@ -49,9 +48,6 @@
           $btnSelector = $('.'+this.options.btnWrap),
           that = this;
 
-      this.inMotion = true;
-      $btnSelector.unbind(); // Make sure the event isn't fired during animation
-
       $next.css({ // Prep the next slide
         marginLeft: this.sWidth * int2,
         display: 'block'
@@ -63,11 +59,8 @@
         marginLeft: 0
       }, {
         duration: this.options.rate,
-        complete: function() { // Reset the CSS and rebind the click event
+        complete: function() { // Reset the CSS and remove the flag
           that.reset();
-          $btnSelector.click(function(e) {
-            that.click(e.target);
-          });
           that.inMotion = false;
         }
       });
@@ -78,24 +71,25 @@
       var current = this.options.counter, // Grab counter's current value
           pos = 1, neg = -1; // these will be passed as int1 and int2 to this.move()
 
-      if ($(target).is('.back')) {
-        // Iterate counter so we can use it to target the incoming slide in this.move()
-        this.options.counter = (current === 1) ? this.total : current - 1;
-        this.move(current, pos, neg);
-      } else if ($(target).is('.forward')) {
-        this.options.counter = (current === this.total) ? 1 : current + 1;
-        this.move(current, neg, pos);
-      } else {
-        return(false);
+      if (this.inMotion) return;
+      else {
+        this.inMotion = true;
+
+        if ($(target).is('.back')) {
+          // Iterate counter so we can use it to target the incoming slide in this.move()
+          this.options.counter = (current === 1) ? this.total : current - 1;
+          this.move(current, pos, neg);
+        } else if ($(target).is('.forward')) {
+          this.options.counter = (current === this.total) ? 1 : current + 1;
+          this.move(current, neg, pos);
+        } else return;
       }
     },
 
     autoSlide: function () {
       var that = this;
       window.setInterval(function() {
-        if (that.inMotion === false) {
-          that.click('.forward');
-        }
+        that.click('.forward');
       }, that.options.auto);
     },
 
