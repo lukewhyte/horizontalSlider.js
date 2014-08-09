@@ -1,4 +1,5 @@
-(function($) {
+(function ($) {
+  'use strict'
 
   var pluginName = 'horizontalSlider',
       defaults = {
@@ -13,12 +14,9 @@
   function HorizontalSlider(element, options) {
     this.$wrap = $(element); // The slides' wrapper
     this.$slides = this.$wrap.children(); // These will be the slides
-
     this.options = $.extend({}, defaults, options);
-
     this.setUniqueBtns(); // Make sure the btnWrap selector is unique
-
-    this.buttons = '<div class="'+this.options.btnWrap+'">'+this.options.buttons+'</div>';
+    this.buttons = '<div class="' + this.options.btnWrap + '">' + this.options.buttons + '</div>';
     this.total = Array.prototype.slice.apply(this.$slides).length; // Useful for keeping a log of position
     this.sWidth = this.$slides.width(); // Used to define the distance covered with each animation
     this.inMotion = false;
@@ -27,9 +25,9 @@
 
   HorizontalSlider.prototype = {
     setUniqueBtns: function() {
-      var total = $('.'+this.options.btnWrap).length;
-      if (total) {
-        this.options.btnWrap = this.options.btnWrap + '-' + total;
+      var existing = $('.' + this.options.btnWrap).length;
+      if (existing) {
+        this.options.btnWrap = this.options.btnWrap + '-' + existing;
       }
     },
 
@@ -47,6 +45,8 @@
           $next = this.$wrap.find('[data-index="'+this.options.counter+'"]'),
           $btnSelector = $('.'+this.options.btnWrap),
           that = this;
+
+      this.inMotion = true;
 
       $next.css({ // Prep the next slide
         marginLeft: this.sWidth * int2,
@@ -73,8 +73,6 @@
 
       if (this.inMotion) return;
       else {
-        this.inMotion = true;
-
         if ($(target).is('.back')) {
           // Iterate counter so we can use it to target the incoming slide in this.move()
           this.options.counter = (current === 1) ? this.total : current - 1;
