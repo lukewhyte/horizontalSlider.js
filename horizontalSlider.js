@@ -1,5 +1,5 @@
 (function ($) {
-  'use strict'
+  'use strict';
 
   var pluginName = 'horizontalSlider',
       defaults = {
@@ -43,7 +43,6 @@
     move: function(current, int1, int2) {
       var $current = this.$wrap.find('[data-index="'+current+'"]'),
           $next = this.$wrap.find('[data-index="'+this.options.counter+'"]'),
-          $btnSelector = $('.'+this.options.btnWrap),
           that = this;
 
       this.inMotion = true;
