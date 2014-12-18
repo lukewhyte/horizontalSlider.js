@@ -16,7 +16,7 @@
     this.$slides = this.$wrap.children(); // These will be the slides
     this.options = $.extend({}, defaults, options);
     this.setUniqueBtns(); // Make sure the btnWrap selector is unique
-    this.buttons = '<div class="' + this.options.btnWrap + '">' + this.options.buttons + '</div>';
+    this.buttons = '<div class="' + this.options.btnWrap + ' allBtns">' + this.options.buttons + '</div>';
     this.total = Array.prototype.slice.apply(this.$slides).length; // Useful for keeping a log of position
     this.sWidth = this.$slides.width(); // Used to define the distance covered with each animation
     this.inMotion = false;
