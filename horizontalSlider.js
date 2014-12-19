@@ -25,7 +25,7 @@
 
   HorizontalSlider.prototype = {
     setUniqueBtns: function() {
-      var existing = $('.' + this.options.btnWrap).length;
+      var existing = $('div[class^="' + this.options.btnWrap + '"]').length;
       if (existing) {
         this.options.btnWrap = this.options.btnWrap + '-' + existing;
       }
