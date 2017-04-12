@@ -8,6 +8,7 @@
         buttons: '<div class="back" href="#"></div><div class="forward" href="#"></div>',
         btnWrap: 'slider-btns',
         btnsInside: true,
+        setWrapDimensions: true, // by default, the wrapper gets its width and height from the slides. Set 'false' to override
         auto: 0
       };
 
@@ -49,7 +50,7 @@
 
       $next.css({ // Prep the next slide
         marginLeft: this.sWidth * int2,
-        display: 'block'
+        display: 'inline-block'
       });
 
       // Animate the current and next slide
@@ -92,13 +93,18 @@
 
     // This method is called once by init and then never again
     setUpCss: function() {
-      this.$wrap.css({
+      var wrapCss = {
         position: 'relative',
         left: 0,
         overflow: 'hidden',
-        width: this.sWidth,
-        height: this.$slides.height()
-      });
+      };
+
+      if (this.options.setWrapDimensions) {
+        wrapCss.width = this.sWidth;
+        wrapCss.height = this.$slides.height()
+      }
+
+      this.$wrap.css(wrapCss);
 
       this.$slides.each(function(i,e) {
         $(e).attr('data-index', i + 1) // data-index attribute keeps track of the slides numerically
@@ -115,7 +121,7 @@
       else $(this.buttons).insertAfter(this.$wrap);
 
       this.$wrap.css({ // If the the wrapper is hidden by default, show it.
-        display: 'block',
+        display: 'inline-block',
         visibility: 'visible'
       }); 
     },
